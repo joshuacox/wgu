@@ -1,7 +1,7 @@
 # wgu
 WireGuard Up assistant
 
-This is a wrapper for wg-quick that gives me a random wg.conf from a given directory (`/etc/wireguard` by default)
+This is a wrapper for wg-quick that gives me a random wg.conf from a given directory (`/etc/wireguard` by default).  If you are using [mullvad](https://mullvad.net/) then you can download a zip of all the confs for their over 500 endpoints.
 
 ## Usage
 
@@ -11,7 +11,7 @@ to get a random worldwide vpn
 wgu
 ```
 
-to get a US vpn
+If using mullvad, to get a US vpn
 
 ```
 wgu us
@@ -21,6 +21,12 @@ to get a swedish vpn
 
 ```
 wgu se
+```
+
+This works with the regex `".*/$1.*\.conf"` in this line:
+
+```
+  wgquick=$(sudo find ${WG_DIR} -regextype sed -regex ".*/$1.*\.conf"|shuf|tail -n1)
 ```
 
 ## Config
