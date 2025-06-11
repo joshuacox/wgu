@@ -2748,39 +2748,7 @@ fi
 
 
 
-
-
-# Define the script names to be installed
-SCRIPTS=$(find . -type f -name "wgu" -o -name "wgd")
-if  "$SCRIPTS" != "" ; then
-  SOURCES="$SCRIPTS"
-else
-  echo "No scripts found in the directory."
-  exit 1
-fi
-
-# Default installation directory to /usr/local/bin
-DEFAULT_INSTALL_DIR="/usr/local/bin"
-
-# Create a Makefile and install rules
-ac_config_commands="$ac_config_commands
-  makefiles
-  $(SOURCES)/Install.wgu
-  $(SOURCES)/Install.wgd
-  install Scripts/$(PACKAGE).sh $(DEFAULT_INSTALL_DIR)/bin/
-"
-
-
-# Define the setup script that will be installed
-SOURCES=$(find . -type f -name "wgu" -o -name "wgd")
-if  "$SOURCES" != "" ; then
-  echo "#!/bin/bash\n"
-  echo "set -e\n"
-  echo "source $(PACKAGE)_setup.sh\$\$\$"
-fi
-
-# Define the package directory structure
-mkdir -p $(PKG_CONFIGdir)/$(PACKAGE)
+ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3362,7 +3330,6 @@ esac
 cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
 # Files that config.status was made for.
 config_files="$ac_config_files"
-config_commands="$ac_config_commands"
 
 _ACEOF
 
@@ -3386,9 +3353,6 @@ Usage: $0 [OPTION]... [TAG]...
 
 Configuration files:
 $config_files
-
-Configuration commands:
-$config_commands
 
 Report bugs to <${MAINTAINER_EMAIL}>."
 
@@ -3512,12 +3476,6 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "makefiles") CONFIG_COMMANDS="$CONFIG_COMMANDS makefiles" ;;
-    "$(SOURCES)/Install.wgu") CONFIG_COMMANDS="$CONFIG_COMMANDS $(SOURCES)/Install.wgu" ;;
-    "$(SOURCES)/Install.wgd") CONFIG_COMMANDS="$CONFIG_COMMANDS $(SOURCES)/Install.wgd" ;;
-    "install") CONFIG_COMMANDS="$CONFIG_COMMANDS install" ;;
-    "Scripts/$(PACKAGE).sh") CONFIG_COMMANDS="$CONFIG_COMMANDS Scripts/$(PACKAGE).sh" ;;
-    "$(DEFAULT_INSTALL_DIR)/bin/") CONFIG_COMMANDS="$CONFIG_COMMANDS $(DEFAULT_INSTALL_DIR)/bin/" ;;
 
   *) as_fn_error $? "invalid argument: '$ac_config_target'" "$LINENO" 5;;
   esac
@@ -3530,7 +3488,6 @@ done
 # bizarre bug on SunOS 4.1.3.
 if $ac_need_defaults; then
   test ${CONFIG_FILES+y} || CONFIG_FILES=$config_files
-  test ${CONFIG_COMMANDS+y} || CONFIG_COMMANDS=$config_commands
 fi
 
 # Have a temporary directory for convenience.  Make it in the build tree
@@ -3719,7 +3676,7 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 fi # test -n "$CONFIG_FILES"
 
 
-eval set X "  :F $CONFIG_FILES      :C $CONFIG_COMMANDS"
+eval set X "  :F $CONFIG_FILES      "
 shift
 for ac_tag
 do
@@ -3940,33 +3897,9 @@ which seems to be undefined.  Please make sure it is defined" >&2;}
  ;;
 
 
-  :C)  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: executing $ac_file commands" >&5
-printf "%s\n" "$as_me: executing $ac_file commands" >&6;}
- ;;
-  esac
-
-
-  case $ac_file$ac_mode in
-    "makefiles":C)
-  rm -f $(SOURCES)/$(PACKAGE)_setup.sh
- ;;
-    "$(SOURCES)/Install.wgu":C)
-  rm -f $(SOURCES)/$(PACKAGE)_setup.sh
- ;;
-    "$(SOURCES)/Install.wgd":C)
-  rm -f $(SOURCES)/$(PACKAGE)_setup.sh
- ;;
-    "install":C)
-  rm -f $(SOURCES)/$(PACKAGE)_setup.sh
- ;;
-    "Scripts/$(PACKAGE).sh":C)
-  rm -f $(SOURCES)/$(PACKAGE)_setup.sh
- ;;
-    "$(DEFAULT_INSTALL_DIR)/bin/":C)
-  rm -f $(SOURCES)/$(PACKAGE)_setup.sh
- ;;
 
   esac
+
 done # for ac_tag
 
 

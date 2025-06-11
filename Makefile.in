@@ -250,11 +250,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-
-# Setup script for installation
-bin_SCRIPTS = wgu.wgd $(SOURCES)/Install.wgu $(SOURCES)/Install.wgd
-bin_script_wgu = $(bin_SCRIPTS) Install.wgu
-bin_script_wgd = $(bin_script_s) Install.wgd
+bin_SCRIPTS = wgu wgd
 all: all-am
 
 .SUFFIXES:
