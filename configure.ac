@@ -1,9 +1,11 @@
-# Define the version of the library
+PACKAGE="wgu"
+PACKAGE_VERSION="0.1"
+MAINTAINER_EMAIL="josh@webhosting.coop"
+AC_CONFIG_FILES([Makefile])
+
+AC_INIT([$(PACKAGE)], [$(PACKAGE_VERSION)], [$(MAINTAINER_EMAIL)])
 AM_INIT_AUTOMAKE
 
-# Set the package name
-PACKAGE="my_script_package"
-PACKAGE_VERSION="1.0"
 
 # Define the script names to be installed
 SCRIPTS=$(find . -type f -name "wgu" -o -name "wgd")
@@ -37,3 +39,5 @@ fi
 
 # Define the package directory structure
 mkdir -p $(PKG_CONFIGdir)/$(PACKAGE)
+
+AC_OUTPUT
