@@ -3,6 +3,13 @@ WireGuard Up assistant
 
 This is a wrapper for wg-quick that gives me a random wg.conf from a given directory (`/etc/wireguard` by default).  If you are using [mullvad](https://mullvad.net/) then you can download a zip of all the confs for their over 500 endpoints.
 
+## Install
+
+ ```sh
+./configure
+sudo make install
+```
+
 ## Usage
 
 to get a random worldwide vpn
