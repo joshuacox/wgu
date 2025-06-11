@@ -1,0 +1,31 @@
+#!/bin/bash
+if [[ -f ~/.config/wgu/config ]]; then
+  source ~/.config/wgu/config
+elif [[ -f ~/.wgu_config ]]; then
+  source ~/.wgu_config
+fi
+: "${WG_DIR:=/etc/wireguard}"
+useage () {
+  echo "useage: to get a random worldwide vpn"
+  echo "$0"
+  echo "useage: to get a US vpn"
+  echo "$0 us"
+  echo "useage: to get a swedish vpn"
+  echo "$0 se"
+}
+if [[ $# -eq 0 ]]; then
+  wgquick=$(sudo find ${WG_DIR} -iname '*.conf'|shuf|tail -n1)
+elif [[ $# -eq 1 ]]; then
+  wgquick=$(sudo find ${WG_DIR} -regextype sed -regex ".*/$1.*\.conf"|shuf|tail -n1)
+  if [[ -z ${wgquick} ]]; then
+    echo 'no matching config'
+    exit 1
+  fi
+else
+  echo 'too many args'
+  echo "$@"
+  useage
+  exit 1
+fi
+sudo wg-quick up ${wgquick}
+sudo wg
