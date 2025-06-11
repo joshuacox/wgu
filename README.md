@@ -33,7 +33,7 @@ wgu se
 This works with the regex `".*/$1.*\.conf"` in this line:
 
 ```
-  wgquick=$(sudo find ${WG_DIR} -regextype sed -regex ".*/$1.*\.conf"|shuf|tail -n1)
+  chosen_wg_conf=$(sudo find ${WG_DIR} -regextype sed -regex ".*/$1.*\.conf"|shuf|tail -n1)
 ```
 
 ## Config

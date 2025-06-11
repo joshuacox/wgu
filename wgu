@@ -16,10 +16,10 @@ useage () {
   echo "$0 se"
 }
 if [[ $# -eq 0 ]]; then
-  wgquick=$(sudo find ${WG_DIR} -iname '*.conf'|shuf|tail -n1)
+  chosen_wg_conf=$(sudo find ${WG_DIR} -iname '*.conf'|shuf|tail -n1)
 elif [[ $# -eq 1 ]]; then
-  wgquick=$(sudo find ${WG_DIR} -regextype sed -regex ".*/$1.*\.conf"|shuf|tail -n1)
-  if [[ -z ${wgquick} ]]; then
+  chosen_wg_conf=$(sudo find ${WG_DIR} -regextype sed -regex ".*/$1.*\.conf"|shuf|tail -n1)
+  if [[ -z ${chosen_wg_conf} ]]; then
     echo 'no matching config'
     exit 1
   fi
@@ -29,5 +29,5 @@ else
   useage
   exit 1
 fi
-sudo wg-quick up ${wgquick}
+sudo wg-quick up "${chosen_wg_conf}"
 sudo wg
