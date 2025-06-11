@@ -1,0 +1,2 @@
+# wgu
+WireGuard Up assistant
