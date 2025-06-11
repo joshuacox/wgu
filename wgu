@@ -1,8 +1,10 @@
 #!/bin/bash
-if [[ -f ~/.config/wgu/config ]]; then
-  source ~/.config/wgu/config
-elif [[ -f ~/.wgu_config ]]; then
-  source ~/.wgu_config
+if [[ -z ${WG_DIR} ]]; then
+  if [[ -f ~/.config/wgu/config ]]; then
+    source ~/.config/wgu/config
+  elif [[ -f ~/.wgu_config ]]; then
+    source ~/.wgu_config
+  fi
 fi
 : "${WG_DIR:=/etc/wireguard}"
 useage () {
