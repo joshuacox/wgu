@@ -5,13 +5,15 @@ elif [[ -f ~/.wgu_config ]]; then
   source ~/.wgu_config
 fi
 : "${WG_DIR:=/etc/wireguard}"
-wgquicks=$(sudo wg|grep 'interface:'|sed 's/interface: //')
-if [[ -z $wgquicks ]]; then
+
+# Safely read active WireGuard interfaces into an array
+mapfile -t active_interfaces < <(sudo wg | grep 'interface:' | sed 's/interface: //')
+
+if [[ ${#active_interfaces[@]} -eq 0 ]]; then
   echo 'no wg up'
   exit 1
 else
-  for wgquick in $wgquicks; do
-    sudo wg
-    sudo wg-quick down ${WG_DIR}/${wgquick}.conf
+  for interface in "${active_interfaces[@]}"; do
+    sudo wg-quick down "${WG_DIR}/${interface}.conf"
   done
 fi
