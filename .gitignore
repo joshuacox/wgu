@@ -3,3 +3,15 @@
 *.status
 Makefile
 .aider*
+
+# Autotools build artifacts
+configure
+config.status
+config.log
+autom4te.cache/
+
+# Build directories and object files
+build/
+*.o
+*.d
+.libs/
