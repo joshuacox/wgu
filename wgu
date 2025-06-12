@@ -1,14 +1,15 @@
 #!/bin/bash
-
-# Set default WireGuard configuration directory
-WG_DIR="${WG_DIR:-/etc/wireguard}"
-
 # Load user-specific configuration if available
 if [[ -f ~/.config/wgu/config ]]; then
   source ~/.config/wgu/config
 elif [[ -f ~/.wgu_config ]]; then
   source ~/.wgu_config
 fi
+# Set default WireGuard configuration directory
+: "${WG_DIR:-/etc/wireguard}"
+
+echo ${WG_DIR}
+exit 0
 
 # Display usage information
 usage() {
