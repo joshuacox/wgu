@@ -8,9 +8,6 @@ fi
 # Set default WireGuard configuration directory
 : "${WG_DIR:-/etc/wireguard}"
 
-echo ${WG_DIR}
-exit 0
-
 # Display usage information
 usage() {
   echo "Usage: $0 [COUNTRY_CODE]"

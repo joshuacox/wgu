@@ -1,7 +1,4 @@
-PACKAGE="wgu"
-PACKAGE_VERSION="0.1"
-MAINTAINER_EMAIL="josh@webhosting.coop"
-AC_INIT([${PACKAGE}], [${PACKAGE_VERSION}], [${MAINTAINER_EMAIL}])
+AC_INIT([wgu], [0.1], [josh@webhosting.coop])
 AM_INIT_AUTOMAKE
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

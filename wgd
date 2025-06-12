@@ -14,6 +14,8 @@ if [[ ${#active_interfaces[@]} -eq 0 ]]; then
   exit 1
 else
   for interface in "${active_interfaces[@]}"; do
+    echo $interface
+    echo $WG_DIR
     sudo wg-quick down "${WG_DIR}/${interface}.conf"
   done
 fi
