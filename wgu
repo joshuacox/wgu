@@ -1,33 +1,56 @@
 #!/bin/bash
-if [[ -z ${WG_DIR} ]]; then
-  if [[ -f ~/.config/wgu/config ]]; then
-    source ~/.config/wgu/config
-  elif [[ -f ~/.wgu_config ]]; then
-    source ~/.wgu_config
-  fi
+
+# Set default WireGuard configuration directory
+WG_DIR="${WG_DIR:-/etc/wireguard}"
+
+# Load user-specific configuration if available
+if [[ -f ~/.config/wgu/config ]]; then
+  source ~/.config/wgu/config
+elif [[ -f ~/.wgu_config ]]; then
+  source ~/.wgu_config
 fi
-: "${WG_DIR:=/etc/wireguard}"
-useage () {
-  echo "useage: to get a random worldwide vpn"
-  echo "$0"
-  echo "useage: to get a US vpn"
-  echo "$0 us"
-  echo "useage: to get a swedish vpn"
-  echo "$0 se"
+
+# Display usage information
+usage() {
+  echo "Usage: $0 [COUNTRY_CODE]"
+  echo
+  echo "  Without arguments: selects a random worldwide WireGuard configuration."
+  echo "  With a country code (e.g., 'us', 'se'): selects a random configuration matching the country."
+  echo
+  echo "Example:"
+  echo "  $0             # Random worldwide config"
+  echo "  $0 us          # Random US config"
+  echo "  $0 se          # Random Swedish config"
+  exit 1
 }
-if [[ $# -eq 0 ]]; then
-  chosen_wg_conf=$(sudo find ${WG_DIR} -iname '*.conf'|shuf|tail -n1)
-elif [[ $# -eq 1 ]]; then
-  chosen_wg_conf=$(sudo find ${WG_DIR} -regextype sed -regex ".*/$1.*\.conf"|shuf|tail -n1)
-  if [[ -z ${chosen_wg_conf} ]]; then
-    echo 'no matching config'
-    exit 1
-  fi
-else
-  echo 'too many args'
-  echo "$@"
-  useage
+
+# Check if 'wg-quick' is installed
+if ! command -v wg-quick &> /dev/null; then
+  echo "Error: 'wg-quick' is not installed. Please install WireGuard."
   exit 1
 fi
+
+# Validate number of arguments
+if [[ $# -gt 1 ]]; then
+  echo "Error: Too many arguments provided."
+  usage
+fi
+
+# Select a configuration file
+if [[ $# -eq 0 ]]; then
+  # No country code specified: pick a random config
+  chosen_wg_conf=$(find "${WG_DIR}" -type f -iname '*.conf' | shuf -n 1)
+elif [[ $# -eq 1 ]]; then
+  # Country code specified: pick a random matching config
+  chosen_wg_conf=$(find "${WG_DIR}" -type f -regextype sed -regex ".*/$1.*\.conf" | shuf -n 1)
+fi
+
+# Check if a config was found
+if [[ -z "${chosen_wg_conf}" ]]; then
+  echo "Error: No matching WireGuard configuration found."
+  exit 1
+fi
+
+# Apply the selected configuration
 sudo wg-quick up "${chosen_wg_conf}"
 sudo wg
