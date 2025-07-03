@@ -1,4 +1,6 @@
 #!/bin/bash
+: "${VERBOSITY:=1}"
+: "${WG_D_B4_U:=1}" #whether or not to to a wgd before wgu
 # Load user-specific configuration if available
 if [[ -f ~/.config/wgu/config ]]; then
   source ~/.config/wgu/config
@@ -21,6 +23,11 @@ usage() {
   echo "  $0 se          # Random Swedish config"
   exit 1
 }
+
+if [[ ${WG_D_B4_U} -eq 1 ]]; then
+  wgd
+fi
+
 
 # Check if 'wg-quick' is installed
 if ! command -v wg-quick &> /dev/null; then
@@ -49,11 +56,20 @@ if [[ -z "${chosen_wg_conf}" ]]; then
   exit 1
 fi
 
+if [[ ${VERBOSITY} -gt 10 ]]; then
+  set -x
+fi
 # Apply the selected configuration
 WG_CMD="sudo wg-quick up ${chosen_wg_conf}"
-$WG_CMD
+if [[ ${VERBOSITY} -lt 5 ]]; then
+  $WG_CMD &> /dev/null
+else
+  $WG_CMD
+fi
 if [[ ! $? -eq 0 ]]; then
-  echo "Trying resoconf reset"
+  if [[ ${VERBOSITY} -gt 1 ]]; then
+    echo "Trying resoconf reset"
+  fi
   sudo resolvconf -u
   $WG_CMD
   if [[ ! $? -eq 0 ]]; then
@@ -61,4 +77,6 @@ if [[ ! $? -eq 0 ]]; then
     exit 1
   fi
 fi
-sudo wg
+if [[ ${VERBOSITY} -gt 0 ]]; then
+  sudo wg
+fi

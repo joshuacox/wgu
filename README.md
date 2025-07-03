@@ -82,6 +82,12 @@ WG_DIR=/path/to/your/configs
 - `~/.config/wgu/config` (preferred)
 - `~/.wgu_config` (fallback)
 
+# Other options
+```bash
+VERBOSITY=0 # How verbose to be
+WG_D_B4_U=0 # whether or not to to a wgd before wgu
+```
+
 ---
 
 ## ⚠️ Notes
