@@ -22,13 +22,12 @@ else
     if [[ ${VERBOSITY} -gt 7 ]]; then
       echo $WG_DIR
     fi
-    #sudo wg-quick down "${WG_DIR}/${interface}.conf"
     # Apply the selected configuration
     WG_CMD="sudo wg-quick down ${WG_DIR}/${interface}.conf"
     if [[ ${VERBOSITY} -gt 9 ]]; then
-      $WG_CMD &> /dev/null
-    else
       $WG_CMD
+    else
+      $WG_CMD &> /dev/null
     fi
   done
 fi
