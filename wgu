@@ -50,5 +50,15 @@ if [[ -z "${chosen_wg_conf}" ]]; then
 fi
 
 # Apply the selected configuration
-sudo wg-quick up "${chosen_wg_conf}"
+WG_CMD="sudo wg-quick up ${chosen_wg_conf}"
+$WG_CMD
+if [[ ! $? -eq 0 ]]; then
+  echo "Trying resoconf reset"
+  sudo resolvconf -u
+  $WG_CMD
+  if [[ ! $? -eq 0 ]]; then
+    echo "resolvconf reset did not work bailing out"
+    exit 1
+  fi
+fi
 sudo wg
