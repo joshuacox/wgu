@@ -15,6 +15,12 @@ A simple command-line tool to manage WireGuard connections by automatically sele
 
 ## 📦 Installation
 
+### oneliner
+
+```
+curl -sL https://raw.githubusercontent.com/joshuacox/wgu/refs/heads/master/bootstrap.sh | bash
+```
+
 1. **Ensure WireGuard is installed**  
    This tool requires `wg-quick` (part of the WireGuard package).  
    On Debian/Ubuntu:  
